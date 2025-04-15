@@ -16,6 +16,7 @@ from scrapy.spiders import Spider
 from scrapy.utils.httpobj import urlparse_cached
 from scrapy.utils.project import data_path
 from scrapy.utils.python import to_bytes, to_unicode
+import fickling
 
 logger = logging.getLogger(__name__)
 
@@ -352,7 +353,7 @@ class FilesystemCacheStorage:
         if 0 < self.expiration_secs < time() - mtime:
             return  # expired
         with self._open(metapath, "rb") as f:
-            return pickle.load(f)  # nosec
+            return fickling.load(f)  # nosec
 
 
 def parse_cachecontrol(header):
