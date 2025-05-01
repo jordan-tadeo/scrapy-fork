@@ -1,8 +1,8 @@
-import random
 from urllib.parse import urlencode
 
 from twisted.web.resource import Resource
 from twisted.web.server import Site
+import secrets
 
 
 class Root(Resource):
@@ -14,7 +14,7 @@ class Root(Resource):
     def render(self, request):
         total = _getarg(request, b"total", 100, int)
         show = _getarg(request, b"show", 10, int)
-        nlist = [random.randint(1, total) for _ in range(show)]  # nosec
+        nlist = [secrets.SystemRandom().randint(1, total) for _ in range(show)]  # nosec
         request.write(b"<html><head></head><body>")
         args = request.args.copy()
         for nl in nlist:
