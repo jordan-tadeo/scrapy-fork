@@ -10,6 +10,7 @@ from scrapy import Request
 from scrapy.commands import ScrapyCommand
 from scrapy.http import Response
 from scrapy.linkextractors import LinkExtractor
+from security import safe_command
 
 
 class Command(ScrapyCommand):
@@ -34,8 +35,7 @@ class _BenchServer:
         from scrapy.utils.test import get_testenv
 
         pargs = [sys.executable, "-u", "-m", "scrapy.utils.benchserver"]
-        self.proc = subprocess.Popen(
-            pargs, stdout=subprocess.PIPE, env=get_testenv()
+        self.proc = safe_command.run(subprocess.Popen, pargs, stdout=subprocess.PIPE, env=get_testenv()
         )  # nosec
         assert self.proc.stdout
         self.proc.stdout.readline()
