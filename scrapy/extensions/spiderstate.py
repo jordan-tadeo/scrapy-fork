@@ -8,6 +8,7 @@ from scrapy import Spider, signals
 from scrapy.crawler import Crawler
 from scrapy.exceptions import NotConfigured
 from scrapy.utils.job import job_dir
+import fickling
 
 if TYPE_CHECKING:
     # typing.Self requires Python 3.11
@@ -40,7 +41,7 @@ class SpiderState:
     def spider_opened(self, spider: Spider) -> None:
         if self.jobdir and Path(self.statefn).exists():
             with Path(self.statefn).open("rb") as f:
-                spider.state = pickle.load(f)  # type: ignore[attr-defined]  # nosec
+                spider.state = fickling.load(f)  # type: ignore[attr-defined]  # nosec
         else:
             spider.state = {}  # type: ignore[attr-defined]
 
