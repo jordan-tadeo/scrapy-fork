@@ -1,4 +1,3 @@
-import random
 from collections import deque
 from datetime import datetime
 from time import time
@@ -16,6 +15,7 @@ from scrapy.settings import BaseSettings
 from scrapy.signalmanager import SignalManager
 from scrapy.utils.defer import mustbe_deferred
 from scrapy.utils.httpobj import urlparse_cached
+import secrets
 
 if TYPE_CHECKING:
     from scrapy.crawler import Crawler
@@ -48,7 +48,7 @@ class Slot:
 
     def download_delay(self) -> float:
         if self.randomize_delay:
-            return random.uniform(0.5 * self.delay, 1.5 * self.delay)  # nosec
+            return secrets.SystemRandom().uniform(0.5 * self.delay, 1.5 * self.delay)  # nosec
         return self.delay
 
     def close(self) -> None:
